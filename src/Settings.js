@@ -1,22 +1,30 @@
 // Settings.js
-import React from 'react';
+import React, { useState } from 'react';
+import GoogleLoginComponent from './GoogleLoginComponent';
 
 function Settings() {
-  const handleGoogleLogin = () => {
-    alert("Login with Google functionality will go here.");
-  };
+  const [user, setUser] = useState(null);
 
   const handleGoogleCalendarLink = () => {
-    alert("Link Google Calendar functionality will go here.");
+    if (!user) {
+      alert("Please login first.");
+      return;
+    }
+    alert("Google Calendar integration coming soon.");
   };
 
   return (
     <div style={settingsContainerStyle}>
       <h1>Settings</h1>
 
-      <div style={buttonContainerStyle}>
-        <button onClick={handleGoogleLogin} style={buttonStyle}>Login with Google</button>
-      </div>
+      {!user ? (
+        <GoogleLoginComponent setUser={setUser} />
+      ) : (
+        <div>
+          <p>Logged in as: {user.email}</p>
+          <button onClick={() => setUser(null)} style={buttonStyle}>Logout</button>
+        </div>
+      )}
 
       <div style={buttonContainerStyle}>
         <button onClick={handleGoogleCalendarLink} style={buttonStyle}>Link to Google Calendar</button>
@@ -31,7 +39,7 @@ const settingsContainerStyle = {
 };
 
 const buttonContainerStyle = {
-  marginBottom: 20,
+  marginTop: 30,
 };
 
 const buttonStyle = {
